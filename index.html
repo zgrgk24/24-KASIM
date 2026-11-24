@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dilek Yolcusoy'a Özel</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px 20px;
+      background: linear-gradient(135deg, #eee8df, #d8c9b8);
+      font-family: Georgia, serif;
+      overflow-x: hidden;
+    }
+
+    .scene {
+      width: min(92vw, 620px);
+      text-align: center;
+    }
+
+    .heading {
+      color: #554437;
+      margin-bottom: 35px;
+      font-size: clamp(22px, 4vw, 30px);
+      letter-spacing: 1px;
+    }
+
+    .envelope-area {
+      position: relative;
+      width: min(100%, 520px);
+      height: 350px;
+      margin: auto;
+      perspective: 1200px;
+    }
+
+    .letter {
+      position: absolute;
+      z-index: 2;
+      left: 7%;
+      bottom: 25px;
+      width: 86%;
+      height: 290px;
+      padding: 35px 30px;
+      overflow: hidden;
+      background: #fffdf7;
+      border: 1px solid #e4d8c5;
+      border-radius: 4px;
+      box-shadow: 0 8px 25px #00000018;
+      color: #514638;
+      text-align: left;
+      transform: translateY(0);
+      transition: transform 1.5s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .letter h2 {
+      font-size: 23px;
+      margin-bottom: 22px;
+      color: #72543b;
+      font-weight: normal;
+    }
+
+    .letter p {
+      font-size: 16px;
+      line-height: 1.8;
+      margin-bottom: 14px;
+    }
+
+    .signature {
+      margin-top: 25px;
+      text-align: right;
+      font-style: italic;
+      color: #866748;
+    }
+
+    .envelope {
+      position: absolute;
+      z-index: 3;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 230px;
+      background: #b98d65;
+      border-radius: 5px;
+      overflow: hidden;
+      box-shadow: 0 18px 35px #4a35252b;
+    }
+
+    .envelope::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #c9a17a, #a87952);
+      clip-path: polygon(0 0, 50% 57%, 100% 0, 100% 100%, 0 100%);
+      z-index: 2;
+    }
+
+    .flap {
+      position: absolute;
+      z-index: 4;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 65%;
+      background: #d0a77f;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      transform-origin: top center;
+      transition: transform 0.9s ease;
+    }
+
+    .seal {
+      position: absolute;
+      z-index: 5;
+      top: 105px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 65px;
+      height: 65px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 30%, #b95b4d, #792c29 75%);
+      color: #f8dfbd;
+      border: 3px solid #a34a3d;
+      box-shadow: 0 4px 10px #48201c55;
+      font-family: Georgia, serif;
+      font-size: 21px;
+      letter-spacing: 1px;
+      transition: opacity .4s ease, transform .4s ease;
+    }
+
+    .open-button {
+      margin-top: 35px;
+      padding: 14px 34px;
+      border: none;
+      border-radius: 30px;
+      background: #79583e;
+      color: white;
+      font-size: 16px;
+      letter-spacing: .5px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px #5d412d35;
+      transition: .3s ease;
+    }
+
+    .open-button:hover {
+      background: #5f422e;
+      transform: translateY(-3px);
+    }
+
+    .closing {
+      margin-top: 35px;
+      color: #72543b;
+      font-size: 19px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 1s ease, transform 1s ease;
+    }
+
+    .scene.open .flap {
+      transform: rotateX(180deg);
+    }
+
+    .scene.open .seal {
+      opacity: 0;
+      transform: translateX(-50%) scale(.6);
+    }
+
+    .scene.open .letter {
+      transform: translateY(-190px);
+      transition-delay: .55s;
+    }
+
+    .scene.open .closing {
+      opacity: 1;
+      transform: translateY(0);
+      transition-delay: 1.5s;
+    }
+
+    @media (max-width: 480px) {
+      .envelope-area {
+        height: 310px;
+      }
+
+      .letter {
+        height: 260px;
+        padding: 25px 20px;
+      }
+
+      .letter p {
+        font-size: 14px;
+      }
+
+      .envelope {
+        height: 200px;
+      }
+
+      .seal {
+        top: 90px;
+      }
+
+      .scene.open .letter {
+        transform: translateY(-165px);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="scene" id="scene">
+    <h1 class="heading">Sizin İçin Küçük Bir Teşekkür...</h1>
+
+    <div class="envelope-area">
+      <article class="letter">
+        <h2>Sayın Dilek Yolcusoy,</h2>
+
+        <p>
+          Bazen küçük bir teşekkür, anlatılmak istenen pek çok şeyin
+          en güzel ifadesidir.
+        </p>
+
+        <p>
+          Emeğiniz, ilginiz ve kattığınız değer için içtenlikle
+          teşekkür ederim. Bıraktığınız güzel izler daima hatırlanacak.
+        </p>
+
+        <p>
+          Her şey için teşekkürler.
+        </p>
+
+        <div class="signature">
+          Saygı ve sevgilerimle...
+        </div>
+      </article>
+
+      <div class="envelope">
+        <div class="flap"></div>
+      </div>
+
+      <div class="seal">DY</div>
+    </div>
+
+    <button class="open-button" id="openButton" onclick="openLetter()">
+      Mektubu Aç
+    </button>
+
+    <p class="closing">Her şey için teşekkürler! ✨</p>
+  </main>
+
+  <script>
+    function openLetter() {
+      const scene = document.getElementById("scene");
+      const button = document.getElementById("openButton");
+
+      scene.classList.add("open");
+      button.textContent = "Mektup Açıldı";
+      button.disabled = true;
+      button.style.opacity = "0.7";
+      button.style.cursor = "default";
+    }
+  </script>
+
+</body>
+</html>
