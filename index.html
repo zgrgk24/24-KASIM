@@ -1,273 +1,678 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dilek Yolcusoy'a Özel</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sayın Dilek Yolcusoy</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --bg-dark: #1f1510;
+    --bg-mid: #37261d;
+    --bg-light: #4d3528;
+    --env-cream: #f4ead5;
+    --env-warm: #e6d6b8;
+    --paper-light: #fdfaf3;
+    --ink-primary: #231a14;
+    --wax-red: #941e1e;
+    --wax-dark: #4e0c0c;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    min-height: 100%;
+    width: 100%;
+    font-family: 'Lora', Georgia, serif;
+    color: var(--ink-primary);
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 50% 30%, rgba(255,226,182,.14), transparent 55%),
+        radial-gradient(circle at 50% 85%, rgba(12,7,4,.65), transparent 70%),
+        linear-gradient(155deg,var(--bg-light),var(--bg-mid) 52%,var(--bg-dark));
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .2;
+    background-image:
+        radial-gradient(rgba(255,244,224,.09) 1px,transparent 0),
+        radial-gradient(rgba(0,0,0,.16) 1px,transparent 0);
+    background-size: 26px 26px;
+    background-position: 0 0,13px 13px;
+}
+
+.stage {
+    position: relative;
+    z-index: 1;
+    min-height: 100dvh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 14px 45px;
+    gap: 24px;
+}
+
+.hint {
+    text-align: center;
+    color: rgba(252,241,222,.9);
+    font-size: 15px;
+    transition: opacity .4s ease,transform .4s ease;
+    user-select: none;
+}
+
+.hint.is-hidden {
+    opacity: 0;
+    transform: translateY(-8px);
+    pointer-events: none;
+}
+
+.hint-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 9px 17px;
+    border-radius: 999px;
+    background: rgba(255,247,232,.11);
+    border: 1px solid rgba(255,238,208,.22);
+    backdrop-filter: blur(8px);
+}
+
+.hint-pulse {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #f2c57c;
+    box-shadow: 0 0 10px rgba(242,197,124,.85);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    50% { transform: scale(1.4); opacity: .65; }
+}
+
+/* ANA ZARF ALANI */
+
+.mail-workspace {
+    position: relative;
+    width: min(92vw,520px);
+    height: 340px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    transition: height 1s cubic-bezier(.22,1,.36,1);
+}
+
+.mail-workspace.is-open {
+    height: 690px;
+}
+
+.desk-shadow {
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 88%;
+    height: 34px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse,rgba(10,6,3,.68),transparent 80%);
+    filter: blur(8px);
+}
+
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 305px;
+    cursor: pointer;
+    outline: none;
+    transition: transform .7s cubic-bezier(.22,1,.36,1);
+}
+
+.mail-workspace:not(.is-open) .envelope:hover {
+    transform: translateY(-5px);
+}
+
+.mail-workspace.is-open .envelope {
+    cursor: default;
+}
+
+/* ZARFIN ARKA YÜZÜ */
+
+.env-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    background:
+        repeating-linear-gradient(0deg,rgba(120,90,54,.025) 0 2px,transparent 2px 5px),
+        linear-gradient(180deg,#d7c19b,#c6ae84);
+    border: 1px solid rgba(116,87,52,.36);
+    box-shadow:
+        inset 0 10px 20px rgba(42,26,10,.25),
+        0 16px 32px rgba(10,6,3,.52);
+    z-index: 1;
+}
+
+/* MEKTUP KAĞIDI */
+
+.letter-paper {
+    position: absolute;
+    left: 50%;
+    bottom: 12px;
+    transform: translateX(-50%) translateY(0) scale(.94);
+    width: min(94%,486px);
+    background:
+        repeating-linear-gradient(180deg,rgba(145,120,88,.028) 0 1px,transparent 1px 27px),
+        radial-gradient(circle at 50% 45%,#fffdf7 68%,#f0e5ce 100%);
+    border-radius: 7px;
+    padding: 30px 34px 32px;
+    border: 1px solid rgba(176,154,118,.48);
+    box-shadow: 0 8px 18px rgba(24,15,8,.2);
+    z-index: 2;
+    opacity: .95;
+    pointer-events: none;
+    transition:
+        transform 1.15s cubic-bezier(.16,1,.3,1),
+        opacity .6s ease,
+        box-shadow 1s ease;
+}
+
+.mail-workspace.is-open .letter-paper {
+    z-index: 5;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateX(-50%) translateY(-325px) scale(1);
+    box-shadow:
+        0 24px 48px rgba(12,7,4,.48),
+        0 6px 16px rgba(12,7,4,.2);
+    transition:
+        transform 1.15s cubic-bezier(.16,1,.3,1) .2s,
+        opacity .7s ease .2s,
+        box-shadow 1s ease;
+}
+
+.letter-salutation {
+    font-family: 'Caveat',cursive;
+    font-size: clamp(36px,5.2vw,43px);
+    font-weight: 700;
+    line-height: 1.15;
+    color: #17100c;
+    margin-bottom: 20px;
+    letter-spacing: .01em;
+}
+
+.letter-content {
+    font-family: 'Lora',Georgia,serif;
+    font-size: clamp(15px,2.2vw,17px);
+    line-height: 1.85;
+    color: var(--ink-primary);
+    overflow-wrap: break-word;
+}
+
+.letter-content p + p {
+    margin-top: 17px;
+}
+
+.letter-closing {
+    font-style: italic;
+    font-weight: 500;
+    color: #2c2019;
+    padding-bottom: 5px;
+}
+
+/* ZARFIN ÖN CEPLERİ */
+
+.env-pocket {
+    position: absolute;
+    inset: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.pocket-left {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(125deg,#f5ebd6,var(--env-warm));
+    clip-path: polygon(0 0,54% 52%,0 100%);
+}
+
+.pocket-right {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(235deg,#f1e6cf,#e1d0b0);
+    clip-path: polygon(100% 0,46% 52%,100% 100%);
+}
+
+.pocket-bottom {
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(90deg,rgba(120,92,58,.02) 0 3px,transparent 3px 7px),
+        linear-gradient(180deg,#f7ede0 0%,var(--env-cream) 55%,var(--env-warm) 100%);
+    clip-path: polygon(0 100%,50% 45%,100% 100%);
+}
+
+/* ÜST KAPAK */
+
+.env-flap-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 56%;
+    perspective: 1400px;
+    z-index: 4;
+    pointer-events: none;
+    transition: z-index 0s linear .5s;
+}
+
+.mail-workspace.is-open .env-flap-wrapper {
+    z-index: 1;
+}
+
+.env-flap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-origin: top center;
+    transform-style: preserve-3d;
+    transition: transform .9s cubic-bezier(.22,1,.36,1);
+}
+
+.mail-workspace.is-open .env-flap {
+    transform: rotateX(176deg);
+}
+
+.flap-front-face,
+.flap-back-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    clip-path: polygon(0 0,100% 0,50% 96%);
+}
+
+.flap-front-face {
+    background: linear-gradient(180deg,#e7d6b7,#f5ebd5 68%,#ebd9b8);
+}
+
+.flap-back-face {
+    transform: rotateX(180deg);
+    background: linear-gradient(180deg,#c9b289,#decba8);
+}
+
+/* GERÇEKÇİ BALMUMU MÜHÜR */
+
+.wax-seal {
+    position: absolute;
+    left: 50%;
+    top: 52%;
+    transform: translate(-50%,-50%);
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 30% 25%,#d45a50 0%,#a92c27 30%,#831b19 65%,#4e0c0c 100%);
+    box-shadow:
+        0 5px 9px rgba(30,5,4,.55),
+        inset 0 3px 5px rgba(255,190,180,.38),
+        inset 0 -5px 8px rgba(35,5,4,.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 6;
+    pointer-events: none;
+    transition: opacity .4s ease,transform .6s ease;
+}
+
+.wax-seal::before {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255,215,200,.48);
+    box-shadow: inset 0 0 5px rgba(255,220,200,.15);
+}
+
+.wax-seal::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 1px solid rgba(110,20,15,.45);
+}
+
+.wax-seal span {
+    font-family: 'Dancing Script',cursive;
+    font-size: 24px;
+    font-weight: 700;
+    color: #ffe4d5;
+    text-shadow:
+        0 1px 1px rgba(40,0,0,.9),
+        0 -1px 1px rgba(255,190,170,.35);
+    letter-spacing: -1px;
+    z-index: 1;
+}
+
+.mail-workspace.is-open .wax-seal {
+    opacity: 0;
+    transform: translate(-50%,-50%) scale(.65);
+}
+
+/* ÖZEL PUL */
+
+.stamp {
+    position: absolute;
+    top: 19px;
+    right: 20px;
+    width: 47px;
+    height: 57px;
+    border: 1.5px dashed rgba(138,98,56,.45);
+    background: rgba(255,250,240,.56);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(4deg);
+    z-index: 4;
+    pointer-events: none;
+}
+
+.stamp-frame {
+    width: 82%;
+    height: 82%;
+    border: 1px solid rgba(138,98,56,.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: rgba(118,82,44,.72);
+}
+
+/* ZARFIN ÜZERİNDEKİ İSİM */
+
+.env-recipient {
+    position: absolute;
+    left: 50%;
+    bottom: 27px;
+    transform: translateX(-50%);
+    width: 90%;
+    text-align: center;
+    z-index: 4;
+    pointer-events: none;
+    transition: opacity .4s ease,transform .5s ease;
+}
+
+.mail-workspace.is-open .env-recipient {
+    opacity: .12;
+    transform: translateX(-50%) translateY(8px);
+}
+
+.env-recipient-text {
+    font-family: 'Dancing Script',cursive;
+    font-weight: 700;
+    font-size: clamp(27px,4.8vw,38px);
+    line-height: 1.2;
+    color: #291d16;
+    display: inline-block;
+    padding: 3px 14px;
+    border-radius: 6px;
+    background: rgba(253,247,235,.58);
+}
+
+/* KAPATMA BUTONU */
+
+.controls {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.toggle-close-btn {
+    appearance: none;
+    border: 1px solid rgba(252,238,212,.35);
+    background: rgba(252,244,228,.15);
+    color: #fdf5e6;
+    font-family: 'Lora',serif;
+    font-size: 15px;
+    padding: 11px 25px;
+    border-radius: 999px;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 6px 18px rgba(0,0,0,.32);
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: all .45s ease;
+}
+
+.toggle-close-btn:hover {
+    background: rgba(252,244,228,.28);
+    transform: translateY(-2px);
+}
+
+.mail-workspace.is-open ~ .controls .toggle-close-btn {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* MOBİL UYUMLULUK */
+
+@media(max-width:520px) {
+    .stage {
+        padding-top: 25px;
+        padding-bottom: 35px;
     }
 
-    body {
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 50px 20px;
-      background: linear-gradient(135deg, #eee8df, #d8c9b8);
-      font-family: Georgia, serif;
-      overflow-x: hidden;
+    .mail-workspace {
+        width: 94vw;
     }
 
-    .scene {
-      width: min(92vw, 620px);
-      text-align: center;
+    .mail-workspace.is-open {
+        height: 650px;
     }
 
-    .heading {
-      color: #554437;
-      margin-bottom: 35px;
-      font-size: clamp(22px, 4vw, 30px);
-      letter-spacing: 1px;
+    .letter-paper {
+        padding: 23px 21px 27px;
     }
 
-    .envelope-area {
-      position: relative;
-      width: min(100%, 520px);
-      height: 350px;
-      margin: auto;
-      perspective: 1200px;
+    .mail-workspace.is-open .letter-paper {
+        transform: translateX(-50%) translateY(-310px) scale(1);
     }
 
-    .letter {
-      position: absolute;
-      z-index: 2;
-      left: 7%;
-      bottom: 25px;
-      width: 86%;
-      height: 290px;
-      padding: 35px 30px;
-      overflow: hidden;
-      background: #fffdf7;
-      border: 1px solid #e4d8c5;
-      border-radius: 4px;
-      box-shadow: 0 8px 25px #00000018;
-      color: #514638;
-      text-align: left;
-      transform: translateY(0);
-      transition: transform 1.5s cubic-bezier(.2,.8,.2,1);
-    }
-
-    .letter h2 {
-      font-size: 23px;
-      margin-bottom: 22px;
-      color: #72543b;
-      font-weight: normal;
-    }
-
-    .letter p {
-      font-size: 16px;
-      line-height: 1.8;
-      margin-bottom: 14px;
-    }
-
-    .signature {
-      margin-top: 25px;
-      text-align: right;
-      font-style: italic;
-      color: #866748;
-    }
-
-    .envelope {
-      position: absolute;
-      z-index: 3;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 230px;
-      background: #b98d65;
-      border-radius: 5px;
-      overflow: hidden;
-      box-shadow: 0 18px 35px #4a35252b;
-    }
-
-    .envelope::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(145deg, #c9a17a, #a87952);
-      clip-path: polygon(0 0, 50% 57%, 100% 0, 100% 100%, 0 100%);
-      z-index: 2;
-    }
-
-    .flap {
-      position: absolute;
-      z-index: 4;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 65%;
-      background: #d0a77f;
-      clip-path: polygon(0 0, 100% 0, 50% 100%);
-      transform-origin: top center;
-      transition: transform 0.9s ease;
-    }
-
-    .seal {
-      position: absolute;
-      z-index: 5;
-      top: 105px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 65px;
-      height: 65px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%, #b95b4d, #792c29 75%);
-      color: #f8dfbd;
-      border: 3px solid #a34a3d;
-      box-shadow: 0 4px 10px #48201c55;
-      font-family: Georgia, serif;
-      font-size: 21px;
-      letter-spacing: 1px;
-      transition: opacity .4s ease, transform .4s ease;
-    }
-
-    .open-button {
-      margin-top: 35px;
-      padding: 14px 34px;
-      border: none;
-      border-radius: 30px;
-      background: #79583e;
-      color: white;
-      font-size: 16px;
-      letter-spacing: .5px;
-      cursor: pointer;
-      box-shadow: 0 6px 18px #5d412d35;
-      transition: .3s ease;
-    }
-
-    .open-button:hover {
-      background: #5f422e;
-      transform: translateY(-3px);
-    }
-
-    .closing {
-      margin-top: 35px;
-      color: #72543b;
-      font-size: 19px;
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity 1s ease, transform 1s ease;
-    }
-
-    .scene.open .flap {
-      transform: rotateX(180deg);
-    }
-
-    .scene.open .seal {
-      opacity: 0;
-      transform: translateX(-50%) scale(.6);
-    }
-
-    .scene.open .letter {
-      transform: translateY(-190px);
-      transition-delay: .55s;
-    }
-
-    .scene.open .closing {
-      opacity: 1;
-      transform: translateY(0);
-      transition-delay: 1.5s;
-    }
-
-    @media (max-width: 480px) {
-      .envelope-area {
-        height: 310px;
-      }
-
-      .letter {
-        height: 260px;
-        padding: 25px 20px;
-      }
-
-      .letter p {
+    .letter-content {
         font-size: 14px;
-      }
-
-      .envelope {
-        height: 200px;
-      }
-
-      .seal {
-        top: 90px;
-      }
-
-      .scene.open .letter {
-        transform: translateY(-165px);
-      }
+        line-height: 1.75;
     }
-  </style>
+
+    .letter-salutation {
+        font-size: 35px;
+        margin-bottom: 14px;
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    *,*::before,*::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
 </head>
+
 <body>
 
-  <main class="scene" id="scene">
-    <h1 class="heading">Sizin İçin Küçük Bir Teşekkür...</h1>
+<main class="stage">
 
-    <div class="envelope-area">
-      <article class="letter">
-        <h2>Sayın Dilek Yolcusoy,</h2>
-
-        <p>
-          Bazen küçük bir teşekkür, anlatılmak istenen pek çok şeyin
-          en güzel ifadesidir.
-        </p>
-
-        <p>
-          Emeğiniz, ilginiz ve kattığınız değer için içtenlikle
-          teşekkür ederim. Bıraktığınız güzel izler daima hatırlanacak.
-        </p>
-
-        <p>
-          Her şey için teşekkürler.
-        </p>
-
-        <div class="signature">
-          Saygı ve sevgilerimle...
-        </div>
-      </article>
-
-      <div class="envelope">
-        <div class="flap"></div>
-      </div>
-
-      <div class="seal">DY</div>
+    <div id="hintBanner" class="hint" aria-live="polite">
+        <span class="hint-badge">
+            <span class="hint-pulse"></span>
+            <span>Açmak için zarfa dokunun</span>
+        </span>
     </div>
 
-    <button class="open-button" id="openButton" onclick="openLetter()">
-      Mektubu Aç
-    </button>
+    <section id="mailWorkspace" class="mail-workspace">
 
-    <p class="closing">Her şey için teşekkürler! ✨</p>
-  </main>
+        <div class="desk-shadow"></div>
 
-  <script>
-    function openLetter() {
-      const scene = document.getElementById("scene");
-      const button = document.getElementById("openButton");
+        <div id="envelopeTrigger"
+             class="envelope"
+             role="button"
+             tabindex="0"
+             aria-expanded="false"
+             aria-label="Sayın Dilek Yolcusoy için hazırlanmış zarfı aç">
 
-      scene.classList.add("open");
-      button.textContent = "Mektup Açıldı";
-      button.disabled = true;
-      button.style.opacity = "0.7";
-      button.style.cursor = "default";
+            <div class="env-back"></div>
+
+            <!-- MEKTUP -->
+
+            <article id="letterPaper" class="letter-paper">
+
+                <div class="letter-salutation">
+                    Sayın Dilek Yolcusoy,
+                </div>
+
+                <div class="letter-content">
+
+                    <p>
+                        Emekleriniz, sabrınız ve bize her zaman yol gösterdiğiniz için sonsuz teşekkürler.
+                        Öğretmenimiz olmanız, sizden ders almak bizim için büyük bir şans.
+                    </p>
+
+                    <p class="letter-closing">
+                        Her şey için teşekkürler!
+                    </p>
+
+                </div>
+
+            </article>
+
+            <!-- ZARF ÖN CEPLERİ -->
+
+            <div class="env-pocket">
+                <div class="pocket-left"></div>
+                <div class="pocket-right"></div>
+                <div class="pocket-bottom"></div>
+            </div>
+
+            <!-- PUL -->
+
+            <div class="stamp">
+                <div class="stamp-frame">ÖZEL</div>
+            </div>
+
+            <!-- ZARF ÜZERİNDEKİ İSİM -->
+
+            <div class="env-recipient">
+                <span class="env-recipient-text">
+                    Sayın Dilek Yolcusoy
+                </span>
+            </div>
+
+            <!-- ZARF KAPAĞI -->
+
+            <div class="env-flap-wrapper">
+                <div class="env-flap">
+                    <div class="flap-front-face"></div>
+                    <div class="flap-back-face"></div>
+                </div>
+            </div>
+
+            <!-- KİŞİYE ÖZEL BALMUMU MÜHÜR -->
+
+            <div class="wax-seal">
+                <span>DY</span>
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="controls">
+        <button id="closeBtn" class="toggle-close-btn" type="button">
+            Zarfı Kapat
+        </button>
+    </div>
+
+</main>
+
+<script>
+(function() {
+
+    const workspace = document.getElementById("mailWorkspace");
+    const trigger = document.getElementById("envelopeTrigger");
+    const closeBtn = document.getElementById("closeBtn");
+    const hintBanner = document.getElementById("hintBanner");
+
+    let opened = false;
+
+    function setOpenState(nextOpen) {
+
+        opened = Boolean(nextOpen);
+
+        workspace.classList.toggle("is-open", opened);
+
+        trigger.setAttribute("aria-expanded", String(opened));
+
+        hintBanner.classList.toggle("is-hidden", opened);
+
+        trigger.setAttribute(
+            "aria-label",
+            opened
+                ? "Dilek Yolcusoy için mektup açık"
+                : "Dilek Yolcusoy için hazırlanmış zarfı aç"
+        );
     }
-  </script>
+
+    trigger.addEventListener("click", function(event) {
+
+        if (event.target.closest("#letterPaper")) return;
+
+        if (!opened) {
+            setOpenState(true);
+        }
+    });
+
+    trigger.addEventListener("keydown", function(event) {
+
+        if (event.key === "Enter" || event.key === " ") {
+
+            event.preventDefault();
+
+            if (!opened) {
+                setOpenState(true);
+            }
+        }
+    });
+
+    closeBtn.addEventListener("click", function() {
+
+        setOpenState(false);
+        trigger.focus();
+
+    });
+
+})();
+</script>
 
 </body>
 </html>
